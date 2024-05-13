@@ -233,10 +233,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     data = Data(args)
 
-    manager_p = PretrainModelManager(args, data)
-    manager_p.train(args, data)
-    # manager_p.load_model(args)
-    manager_p.evaluation(args, data)
+    # manager_p = PretrainModelManager(args, data)
+    # manager_p.train(args, data)
+    # # manager_p.load_model(args)
+    # manager_p.evaluation(args, data)
 
     knn_constructor = KNNConstructor(args, manager_p.model, mode='training')
     knn_constructor.dump_knn_features(data)
