@@ -35,10 +35,10 @@ def init_model():
 
     parser.add_argument("--pretrain", action="store_true", help="Pre-train the model with labeled data.")
 
-    parser.add_argument("--dataset", default='banking', type=str, required=True,
+    parser.add_argument("--dataset", default='banking', type=str,
                         help="The name of the dataset to train selected.")
 
-    parser.add_argument("--known_cls_ratio", default=0.75, type=float, required=True,
+    parser.add_argument("--known_cls_ratio", default=0.75, type=float,
                         help="The number of known classes.")
 
     parser.add_argument('--seed', type=int, default=0, help="Random seed for initialization.")
