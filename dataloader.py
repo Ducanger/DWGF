@@ -5,7 +5,7 @@ class Data:
 
     def __init__(self, args):
         set_seed(args.seed)
-        max_seq_lengths = {'clinc': 30, 'stackoverflow': 45, 'banking': 55}
+        max_seq_lengths = {'clinc': 30, 'stackoverflow': 45, 'banking': 55, 'fci': 45}
         args.max_seq_length = max_seq_lengths[args.dataset]
 
         processor = DatasetProcessor()
