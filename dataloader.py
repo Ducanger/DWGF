@@ -10,7 +10,8 @@ class Data:
 
         processor = DatasetProcessor()
         self.data_dir = os.path.join(args.data_dir, args.dataset)
-        self.all_label_list = processor.get_labels(self.data_dir)
+        self.all_label_list = processor.get_labels(self.data_dir, mode='train')
+        self.test_label_list = processor.get_labels(self.data_dir, mode='test')
         self.n_known_cls = round(len(self.all_label_list) * args.known_cls_ratio)
         self.known_label_list = list(np.random.choice(np.array(self.all_label_list), self.n_known_cls, replace=False))
         self.num_labels = int(len(self.all_label_list))
@@ -94,7 +95,7 @@ class Data:
         if mode == 'train' or mode == 'eval':
             features = convert_examples_to_features(examples, self.known_label_list, args.max_seq_length, tokenizer)
         elif mode == 'test':
-            features = convert_examples_to_features(examples, self.all_label_list, args.max_seq_length, tokenizer)
+            features = convert_examples_to_features(examples, self.test_label_list, args.max_seq_length, tokenizer)
 
         input_ids = torch.tensor([f.input_ids for f in features], dtype=torch.long)
         input_mask = torch.tensor([f.input_mask for f in features], dtype=torch.long)
@@ -170,10 +171,10 @@ class DatasetProcessor(DataProcessor):
             return self._create_examples(
                 self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
 
-    def get_labels(self, data_dir):
+    def get_labels(self, data_dir, mode='train'):
         """See base class."""
         import pandas as pd
-        test = pd.read_csv(os.path.join(data_dir, "train.tsv"), sep="\t")
+        test = pd.read_csv(os.path.join(data_dir, f'{mode}.tsv'), sep="\t")
         if data_dir == 'data/banking':
             labels = np.unique(np.array(test['label']))
         else:
